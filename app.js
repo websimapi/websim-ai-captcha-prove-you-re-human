@@ -8,6 +8,7 @@ let state = {
   perRoundTimes: [],
   current: null, // {instruction, items:[{url, kind}], correctIndex, seeds}
   history: [],   // store puzzle summaries for proof hash
+  lastHashHex: null, // add hash for posting
 };
 
 const els = {
@@ -25,6 +26,8 @@ const els = {
   btnDownload: document.getElementById("btn-download"),
   btnRetry: document.getElementById("btn-retry"),
   proofCanvas: document.getElementById("proof-canvas"),
+  btnPost: document.getElementById("btn-post"),
+  postStatus: document.getElementById("post-status"),
 };
 
 let timerHandle = null;
@@ -64,9 +67,11 @@ async function getPuzzleSpec() {
 }
 Rules:
 - Avoid text-in-image.
-- Use concrete, commonsense details (materials, states like "peeled", "sliced", "stacked 3-high", "shadow to the left").
-- Make it easy for humans, hard for bots.
-- Stick to everyday objects or simple scenes.`;
+- Use concrete, human-favored cues: EXACT counts (e.g., exactly 3), LEFT/RIGHT orientation, ADJACENCY ("next to", "touching"), STATE ("peeled", "cracked open"), and COMPOSITION ("stacked 3-high", "one item upside down").
+- Include at least two constraints combined (e.g., count + orientation, or state + adjacency).
+- Make the correct image unambiguous for humans; make decoys plausible but violating ONE critical constraint each.
+- Keep to everyday objects in simple scenes; prefer overhead or straight-on views; natural lighting.
+- Output short, precise prompts suitable for photorealistic generation; no text or watermarks.`;
   const ideas = [
     "cutlery: exact count of forks vs spoons",
     "fruit: sliced vs whole, seeds visible",
@@ -236,6 +241,7 @@ async function showResult() {
     rounds: state.history,
   });
   const hashHex = await sha256Hex(payload);
+  state.lastHashHex = hashHex;
   drawProofCanvas(hashHex);
 }
 
@@ -282,3 +288,37 @@ window.addEventListener("keydown", (e) => {
 // Initialize
 showScreen("start");
 
+async function postProofToComments() {
+  try {
+    els.postStatus.textContent = "Preparing proof image…";
+    const blob = await new Promise(res => els.proofCanvas.toBlob(res, "image/png"));
+    if (!blob) throw new Error("Failed to render image");
+    const file = new File([blob], `humancheck-proof-${Date.now()}.png`, { type: "image/png" });
+    const url = await window.websim.upload(file);
+
+    const totalMs = state.perRoundTimes.reduce((a,b)=>a+b,0);
+    const content = [
+      "HumanCheck proof",
+      `Score: ${state.score}/${ROUNDS}`,
+      `Total time: ${formatTime(totalMs)}`,
+      `Hash: ${state.lastHashHex?.slice(0,16)}…`
+    ].join(" • ");
+
+    els.postStatus.textContent = "Opening comment editor…";
+    const once = (fn) => {
+      const handler = (e) => { window.websim.removeEventListener('comment:created', handler); fn(e); };
+      window.websim.addEventListener('comment:created', handler);
+    };
+    once(() => { els.postStatus.textContent = "Posted! Check the comments."; });
+
+    const res = await window.websim.postComment({ content, images: [url] });
+    if (res && res.error) throw new Error(res.error);
+  } catch (err) {
+    els.postStatus.textContent = `Failed to post: ${err.message || err}`;
+  }
+}
+
+els.btnPost.addEventListener("click", () => {
+  if (!els.result.classList.contains("active")) return;
+  postProofToComments();
+});

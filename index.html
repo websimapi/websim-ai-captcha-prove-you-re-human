@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI CAPTCHA: Prove You’re Human</title>
+  <title>AI CAPTCHA: Prove You're Human</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css" />
@@ -26,7 +26,7 @@
   <main id="app" class="container">
     <section id="screen-start" class="screen active" aria-labelledby="start-title">
       <h2 id="start-title" class="title">Prove you're human</h2>
-      <p class="muted">You’ll solve 3 quick image puzzles. Pick the one that matches a very specific instruction.</p>
+      <p class="muted">You'll solve 3 quick image puzzles. Pick the one that matches a very specific instruction.</p>
       <button id="btn-start" class="btn primary">Start</button>
       <div class="footnote small">No signup. No tracking. Your proof stays with you.</div>
     </section>
@@ -58,8 +58,9 @@
       <canvas id="proof-canvas" width="900" height="500" class="proof-canvas" aria-label="Humanity proof image"></canvas>
       <div class="controls">
         <button id="btn-download" class="btn primary">Download Proof</button>
-        <button id="btn-retry" class="btn">Try Again</button>
+        <button id="btn-post" class="btn">Post to Comments</button>
       </div>
+      <div id="post-status" class="small muted" aria-live="polite"></div>
       <div class="footnote small">Post this image anywhere comments require proof.</div>
     </section>
   </main>
@@ -74,4 +75,3 @@
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
-

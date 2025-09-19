@@ -1,3 +1,5 @@
+
+```
 :root { --bg: #ffffff; --fg: #0a0a0a; --muted:#6b6b6b; --line:#eaeaea; --accent:#0f62fe; }
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:"Noto Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
@@ -29,8 +31,8 @@ html, body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-fa
 .controls { margin-top:12px; display:flex; gap:10px; }
 .scoreline { font-weight:700; margin:8px 0 16px; }
 .proof-canvas { width:100%; height:auto; border:1px solid var(--line); border-radius:12px; background:#fff; }
+#post-status { margin-top:8px; min-height:1em; }
 @media (max-width: 800px) {
   .gallery { grid-template-columns:1fr; }
   .card img { height:240px; }
 }
-
