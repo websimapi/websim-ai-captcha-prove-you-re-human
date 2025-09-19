@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI CAPTCHA: Prove You’re Human</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+  <meta name="color-scheme" content="light dark" />
+  <script type="importmap">
+  {
+    "imports": {
+      "app": "./app.js",
+      "utils": "./utils.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="brand">HumanCheck</h1>
+    <div class="meta small">Simple visual puzzles. Hard for bots.</div>
+  </header>
+
+  <main id="app" class="container">
+    <section id="screen-start" class="screen active" aria-labelledby="start-title">
+      <h2 id="start-title" class="title">Prove you're human</h2>
+      <p class="muted">You’ll solve 3 quick image puzzles. Pick the one that matches a very specific instruction.</p>
+      <button id="btn-start" class="btn primary">Start</button>
+      <div class="footnote small">No signup. No tracking. Your proof stays with you.</div>
+    </section>
+
+    <section id="screen-puzzle" class="screen" aria-live="polite">
+      <div class="puzzle-header">
+        <div class="round small" id="round-indicator">Round 1/3</div>
+        <div class="timer small" id="timer">00:00</div>
+      </div>
+      <div id="instruction" class="instruction" role="heading" aria-level="2">Loading instruction…</div>
+
+      <div id="gallery" class="gallery" role="group" aria-label="Select the correct image">
+        <!-- images injected here -->
+      </div>
+
+      <div class="controls">
+        <button id="btn-skip" class="btn ghost">New puzzle</button>
+      </div>
+
+      <div id="loader" class="loader">
+        <div class="spinner" aria-hidden="true"></div>
+        <div class="small">Generating images… (~10s)</div>
+      </div>
+    </section>
+
+    <section id="screen-result" class="screen" aria-labelledby="result-title">
+      <h2 id="result-title" class="title">Your result</h2>
+      <div id="scoreline" class="scoreline">Score: 0/3</div>
+      <canvas id="proof-canvas" width="900" height="500" class="proof-canvas" aria-label="Humanity proof image"></canvas>
+      <div class="controls">
+        <button id="btn-download" class="btn primary">Download Proof</button>
+        <button id="btn-retry" class="btn">Try Again</button>
+      </div>
+      <div class="footnote small">Post this image anywhere comments require proof.</div>
+    </section>
+  </main>
+
+  <footer class="site-footer small">
+    <span>Designed for humans. Accessible by default.</span>
+  </footer>
+
+  <script type="module">
+    import "app";
+  </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
